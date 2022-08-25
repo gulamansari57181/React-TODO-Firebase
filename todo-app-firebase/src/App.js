@@ -15,10 +15,11 @@ function App() {
   // when app loads. we have to listen firebase database and add/removed task- done by useEffect
 
   useEffect(() => {
-    db.collection("todos").onSnapshot((snapshot) => {
-      console.log(snapshot.docs.map((doc) => doc.data().todo));
-      setTodos(snapshot.docs.map((doc) => doc.data().todo));
-    });
+    db.collection("todos")
+      .orderBy("timestamp", "desc")
+      .onSnapshot((snapshot) => {
+        setTodos(snapshot.docs.map((doc) => doc.data().todo));
+      });
   }, []);
 
   const addTodo = (event) => {
